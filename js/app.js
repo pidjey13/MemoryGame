@@ -1,5 +1,14 @@
-// deck of all cards in game
+
+window.onload = startGame();// deck of all cards in game
 const deck = document.querySelector(".deck");
+
+// restart button
+const restart = document.querySelector(".restart");
+
+// restart button CLICK LISTENER
+restart.addEventListener('click', function() {
+	startGame();
+});
 
 // array-list that holds all of the cards and convert the object into Array
 var cards = document.querySelectorAll(".deck .card");
@@ -36,9 +45,6 @@ function startGame() {
 }
 
 // START THE GAME
-window.onload = startGame();
-
-
 
 
 
