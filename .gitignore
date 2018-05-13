@@ -2,6 +2,7 @@
 .htmlhintrc
 .stylelintrc
 .eslintrc.json
+.vscode
 misc
 
 README.md
