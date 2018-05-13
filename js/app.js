@@ -2,40 +2,44 @@
  * array-list that holds all of the cards
  */
 
-var cards = [
-    {
-        name: "diamond",
-        id: 1
-    },
-    {
-        name: "paper-plane-o",
-        id: 2
-    },
-    {
-        name: "anchor",
-        id: 3
-    },
-    {
-        name: "bolt",
-        id: 4
-    },
-    {
-        name: "cube",
-        id: 5
-    },
-    {
-        name: "leaf",
-        id: 6
-    },
-    {
-        name: "bicycle",
-        id: 7
-    },
-    {
-        name: "bomb",
-        id: 8
-    }
-];
+var cards = document.querySelectorAll(".deck .card");
+let cardsArray = Array.from(cards);
+console.log(cardsArray.length);
+
+// var cards = [
+//     {
+//         name: "diamond",
+//         id: 1
+//     },
+//     {
+//         name: "paper-plane-o",
+//         id: 2
+//     },
+//     {
+//         name: "anchor",
+//         id: 3
+//     },
+//     {
+//         name: "bolt",
+//         id: 4
+//     },
+//     {
+//         name: "cube",
+//         id: 5
+//     },
+//     {
+//         name: "leaf",
+//         id: 6
+//     },
+//     {
+//         name: "bicycle",
+//         id: 7
+//     },
+//     {
+//         name: "bomb",
+//         id: 8
+//     }
+// ];
 
 
 
@@ -43,9 +47,12 @@ var cards = [
 
 // var el = document.querySelector(".deck");
 // var el = document.querySelector(".deck .card");
-var el = document.querySelectorAll(".deck .card");
 
-console.log(el)
+// console.log(el);
+// console.log(typeof el);
+
+//let card = document.getElementsByClassName("card");
+//let cards = [...card];
 
 /*  --  */
 
@@ -60,6 +67,8 @@ console.log(el)
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
+    // console.log("array1");
+    // console.log(array);
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -70,9 +79,33 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 
+    // console.log("array2");
+    // console.log(array);
+    console.log("array.length");
+    console.log(array.length);
     return array;
 }
 
+
+// deck of all cards in game
+const deck = document.querySelector(".deck");
+
+function startGame() {
+    var shuffledCards = shuffle(cardsArray);
+    for (var i = 0; i < shuffledCards.length; i++) {
+        [].forEach.call(shuffledCards, function (item) {
+            deck.appendChild(item);
+            //console.log(item);
+        });
+    }
+}
+
+
+
+window.onload = startGame();
+
+// console.log("EL SHUFFLE:");
+// console.log(cards);
 
 /*
  * set up the event listener for a card. If a card is clicked:
