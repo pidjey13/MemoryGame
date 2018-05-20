@@ -1,18 +1,20 @@
-
-window.onload = startGame();// deck of all cards in game
+// deck of all cards in game
 const deck = document.querySelector(".deck");
 
 // restart button
 const restart = document.querySelector(".restart");
 
+// array-list that holds all of the cards and convert the object into Array
+var cards = document.querySelectorAll(".deck .card");
+let cardsArray = Array.from(cards);
+
+// START THE GAME
+window.onload = startGame();
+
 // restart button CLICK LISTENER
 restart.addEventListener('click', function() {
 	startGame();
 });
-
-// array-list that holds all of the cards and convert the object into Array
-var cards = document.querySelectorAll(".deck .card");
-let cardsArray = Array.from(cards);
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -43,8 +45,6 @@ function startGame() {
 
 	reconstructHTML(shuffledDeck);
 }
-
-// START THE GAME
 
 
 
