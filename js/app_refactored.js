@@ -6,7 +6,7 @@ const deck = document.querySelector(".deck");
 const restart = document.querySelector(".restart");
 
 // array-list that holds all of the cards and convert the object into Array
-var cards = document.querySelectorAll(".deck .card");
+const cards = document.querySelectorAll(".deck .card");
 let cardsArray = Array.from(cards);
 
 // array of cards clicked used to check a match
@@ -14,6 +14,10 @@ let clicked_cards = [];
 
 // moves counter incremented after the 2nd click
 let moves = 0;
+
+// array-list that holds all of the stars
+const stars = document.querySelectorAll(".stars .fa-star");
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -99,6 +103,10 @@ restart.addEventListener('click', () => {
 
 	moves = 0;
 	document.querySelector(".moves").innerHTML = moves;
+
+	stars[0].classList.remove("hidden_stars");
+	stars[1].classList.remove("hidden_stars");
+	stars[2].classList.remove("hidden_stars");
 });
 
 // Add an evt listener on the deck --- THANKS TO MIKE WALES FOR THE TIP
@@ -128,7 +136,6 @@ deck.addEventListener('click', el => {
 		 *  That function will check if icon-classes have a match.
 		 */
 		if (clicked_cards.length == 2) {
-
 			check_suit();
 
 			document.querySelector(".moves").innerHTML = moves += 1;
@@ -136,8 +143,29 @@ deck.addEventListener('click', el => {
 
 	}
 
+	if (moves == 12) {
+		stars[2].classList.add("hidden_stars");
+	} else if (moves == 16) {
+		stars[1].classList.add("hidden_stars");
+	} else if (moves == 22) {
+		stars[0].classList.add("hidden_stars");
+	}
+
 });
 
 
 // IT'S TIME TO PLAY THE GAME (cit.)
 window.onload = startGame();
+
+
+/*
+				STARS
+- 2 LEFT AFTER 9 MOVES
+- 1 LEFT AFTER 14 MOVES
+
+			To HIDE STARS:
+.hidden_stars {
+		visibility: hidden;
+}
+
+*/

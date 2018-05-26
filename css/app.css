@@ -108,17 +108,29 @@ h1 {
 	display: inline-block;
 }
 
+.score-panel .stars .fa {
+	color: yellow;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.hidden_stars {
+	color: white !important;
+}
+
+.timer {
+	display: inline-block;
+	margin-left: 10%;
+}
+
 .score-panel .restart {
 	float: right;
 	cursor: pointer;
 }
 
-
 /*  
-* Aggiunge una classe disabled alla carta cliccata
-* per evitare un secondo click
+* Classe disabled alla carta cliccata per
+* evitare un secondo click, aggiunta via JS
 */
-
 .deck .card.disabled {
 	pointer-events: none;
 }
