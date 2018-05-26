@@ -51,7 +51,7 @@ function startGame() {
 // Function that checks if icon-classes have a match.
 // It will be called only after a 2nd click.
 function check_suit() {
-	
+
 	/* 
 	*  Statement that check if there is a match on the cards' suit,
 	*  and if this is the case, adds "match" CSS class,
@@ -73,14 +73,12 @@ function check_suit() {
 	} else {
 		
 		setTimeout(() => {
-			
 			clicked_cards[0].classList.remove("open", "show");
 			clicked_cards[1].classList.remove("open", "show");
 			
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
-			
 		}, 500);
 		
 		clicked_cards[0].classList.remove("disabled");
@@ -141,5 +139,5 @@ deck.addEventListener('click', el => {
 });
 
 
-// START THE GAME
+// IT'S TIME TO PLAY THE GAME (cit.)
 window.onload = startGame();
