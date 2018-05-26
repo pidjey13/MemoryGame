@@ -15,10 +15,43 @@ let clicked_cards = [];
 // moves counter incremented after the 2nd click
 let moves = 0;
 
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+	var currentIndex = array.length,
+	temporaryValue, randomIndex;
+	
+	while (currentIndex !== 0) {
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+	
+	return array;
+}
+
+// function that will shuffle the deck of cards
+// by shuffling cards' suits
+function startGame() {
+	var shuffledDeck = shuffle(cardsArray);
+	
+	let outer = "";
+	var reconstructHTML = () => {
+		shuffledDeck.forEach(card => {
+			outer += card.outerHTML;
+		});
+		
+		deck.innerHTML = outer;
+	}
+	
+	reconstructHTML(shuffledDeck);
+}
 
 // Function that checks if icon-classes have a match.
 // It will be called only after a 2nd click.
 function check_suit() {
+	
 	/* 
 	*  Statement that check if there is a match on the cards' suit,
 	*  and if this is the case, adds "match" CSS class,
@@ -26,54 +59,60 @@ function check_suit() {
 	*  doesn't match back their "clickability".
 	*/
 	if (clicked_cards[0].innerHTML == clicked_cards[1].innerHTML) {
-
+		
 		clicked_cards[0].classList.add("match");
 		clicked_cards[1].classList.add("match");
-
+		
 		clicked_cards[0].classList.remove("open", "show");
 		clicked_cards[1].classList.remove("open", "show");
-
+		
 		// I re-initialize my clicked_cards array which contains
 		// cards' icon-classes -- String format.
 		clicked_cards = [];
-
+		
 	} else {
-
+		
 		setTimeout(() => {
-
+			
 			clicked_cards[0].classList.remove("open", "show");
 			clicked_cards[1].classList.remove("open", "show");
-
+			
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
-
+			
 		}, 500);
-
-		// clicked_cards[0].classList.remove("open", "show");
-		// clicked_cards[1].classList.remove("open", "show");
-
+		
 		clicked_cards[0].classList.remove("disabled");
 		clicked_cards[1].classList.remove("disabled");
-
+		
 	}
 }
 
 
+/* 
+ *  Restart button CLICK LISTENER
+ *  After the user click on the restart btn, startGame will be fired.
+ *  startGame() will shuffle the cards.
+ *  moves counter back to 0 and uploaded the DOM.
+ */
+restart.addEventListener('click', () => {
+	startGame();
+
+	moves = 0;
+	document.querySelector(".moves").innerHTML = moves;
+});
+
 // Add an evt listener on the deck --- THANKS TO MIKE WALES FOR THE TIP
 deck.addEventListener('click', el => {
-
-	console.log(el.target.classList)
-	console.log(el.target)
-	console.log(el.target.parentNode.classList)
-
+	
 	// Check if the click has been made on a card and then stores it into
 	// a variable which is going to be pushed later in order to be checked
 	if (el.target.classList == "card" || el.target.parentNode.classList == "card") {
-
+		
 		let card;
-
-		if (el.target.classList == "card"){
+		
+		if (el.target.classList == "card") {
 			card = el.target;
 		} else {
 			card = el.target.parentNode;
@@ -86,10 +125,10 @@ deck.addEventListener('click', el => {
 		clicked_cards.push(card);
 
 		/* 
-			*  Check if 2nd click has been made. Then I call the
-			*  check_suit function that will start here cause of the 2nd click.
-			*  That function will check if icon-classes have a match.
-			*/
+		 *  Check if 2nd click has been made. Then I call the
+		 *  check_suit function that will start here cause of the 2nd click.
+		 *  That function will check if icon-classes have a match.
+		 */
 		if (clicked_cards.length == 2) {
 
 			check_suit();
@@ -104,48 +143,3 @@ deck.addEventListener('click', el => {
 
 // START THE GAME
 window.onload = startGame();
-
-/* 
-*  Restart button CLICK LISTENER
-*  After the user click on the restart btn, startGame will be fired.
-*  startGame() will shuffle the cards.
-*  moves counter back to 0 and uploaded the DOM.
-*/
-restart.addEventListener('click', () => {
-	startGame();
-
-	moves = 0;
-	document.querySelector(".moves").innerHTML = moves;
-});
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-	var currentIndex = array.length, temporaryValue, randomIndex;
-
-	while (currentIndex !== 0) {
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-	return array;
-}
-
-// function that will shuffle the deck of cards
-// by shuffling cards' suits
-function startGame() {
-	var shuffledDeck = shuffle(cardsArray);
-
-	let outer = "";
-	var reconstructHTML = () => {
-		shuffledDeck.forEach(card => {
-			outer += card.outerHTML;
-		});
-
-		deck.innerHTML = outer;
-	}
-
-	reconstructHTML(shuffledDeck);
-}
