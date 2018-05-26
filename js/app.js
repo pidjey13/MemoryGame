@@ -19,10 +19,7 @@ let moves = 0;
 const stars = document.querySelectorAll(".stars .fa-star");
 
 // game timer
-let second = 0;
-let minute = 0;
-let interval;
-let timer = document.querySelector(".timer");
+let timer;
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -97,14 +94,17 @@ function check_suit() {
 
 // Function to start the game timer
 function startTimer() {
-	interval = setInterval(function () {
-		timer.innerHTML = minute + " mins " + second + " secs";
-		second++;
-		
-		if (second == 60) {
-			minute++;
-			second = 0;
+	let sec = 0;
+	let min = 0;
+
+	timer = setInterval(() => {
+		if (sec == 59) {
+			min += 1;
+			sec = -1;
 		}
+
+		document.querySelector("#minutes").innerHTML = min;
+		document.querySelector("#seconds").innerHTML = ++sec;
 	}, 1000);
 }
 
@@ -126,10 +126,9 @@ restart.addEventListener('click', () => {
 
 	clicked_cards = [];
 
-	clearInterval(interval);
-	second = 0;
-	minute = 0;
-	timer.innerHTML = minute + " mins " + second + " secs";
+	clearInterval(timer);
+	document.getElementById("minutes").innerHTML = 0;
+	document.getElementById("seconds").innerHTML = 0;
 
 	startGame();
 
