@@ -164,7 +164,7 @@ function startTimer() {
 // congratulations modal when all cards match, show modal and moves, time and rating
 function congratulations() {
 
-	if (matchedCards.length == 2) {
+	if (matchedCards.length == 16) {
 
 		// I select from the DOM the number of stars visibile when game is won
 		let starRating = document.querySelectorAll('.fa-star:not(.hidden_stars)').length;
