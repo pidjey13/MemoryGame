@@ -3,14 +3,14 @@
 ## Dependecies
 * Font-Awsome (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
 
+* Google Fonts (https://fonts.googleapis.com/css?family=Coda);
+
+* Sweet Alert v1 (https://unpkg.com/sweetalert/dist/sweetalert.min.js);
+
 ## What is this project about
 This is a simple game built in Vanilla JS as part
 of Udacity Nanodegree Program. 
 ![snippet](img/preview.png)
-
-* Google Fonts (https://fonts.googleapis.com/css?family=Coda);
-
-* Sweet Alert v1 (https://unpkg.com/sweetalert/dist/sweetalert.min.js);
 
 ## Challenge
 Match all 16 cards in less time with less moves evry game.
