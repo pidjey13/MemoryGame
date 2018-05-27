@@ -1,30 +1,43 @@
 // deck of all cards in game
 // ==> used for a single evt listener
-const deck = document.querySelector(".deck");
+const deck = document.querySelector('.deck');
 
 // restart button
-const restart = document.querySelector(".restart");
+const restart = document.querySelector('.restart');
 
 // array-list that holds all of the cards and convert the object into Array
-const cards = document.querySelectorAll(".deck .card");
+const cards = document.querySelectorAll('.deck .card');
 let cardsArray = Array.from(cards);
 
 // array of cards clicked used to check for a match
 let clicked_cards = [];
 
 // declaring variable of matchedCards
-let matchedCards = document.getElementsByClassName("match");
+let matchedCards = document.getElementsByClassName('match');
 
 // array-list that holds all of the stars
-const stars = document.querySelectorAll(".stars .fa-star");
+const stars = document.querySelectorAll('.stars .fa-star');
 
 // moves counter incremented after the 2nd click
 let moves = 0;
 
 // game timer
 let timer;
-let minutes = document.querySelector("#minutes");
-let seconds = document.querySelector("#seconds");
+let minutes = document.querySelector('#minutes');
+let seconds = document.querySelector('#seconds');
+
+// new Game panel with swal (Sweet Alert)
+let swal_NewGame = () => {
+	swal({
+		title: '🎲 New Game started! 🎲',
+		icon: 'success',
+		button: false,
+		text: 'Good Luck 🍀'
+	})
+};
+
+
+/* FUNCTIONS */
 
 
 // @description Shuffle function from http://stackoverflow.com/a/2450976
@@ -50,11 +63,11 @@ function shuffle(array) {
 function startGame() {
 
 	for (var i = 0; i < stars.length; i++) {
-		stars[i].classList.remove("hidden_stars");
+		stars[i].classList.remove('hidden_stars');
 	}
 
 	moves = 0;
-	document.querySelector(".moves").innerHTML = moves;
+	document.querySelector('.moves').innerHTML = moves;
 
 	clicked_cards = [];
 
@@ -63,15 +76,15 @@ function startGame() {
 	seconds.innerHTML = 0;
 
 	let shuffledDeck = shuffle(cardsArray);
-	let outer = "";
+	let outer = '';
 
-	var reconstructHTML = () => {
+	const reconstructHTML = () => {
 		shuffledDeck.forEach(card => {
 			outer += card.outerHTML;
 		});
 		
 		deck.innerHTML = outer;
-	}
+	};
 	
 	reconstructHTML(shuffledDeck);
 }
@@ -81,19 +94,19 @@ function startGame() {
 function check_suit() {
 	/* 
 	*  Statement that checks if there is a match on the cards' suit,
-	*  and if it's the case, adds "match" CSS class,
-	*  else "disabled" CSS class is removed in order to give cards that
-	*  doesn't match back their "clickability".
+	*  and if it's the case, adds 'match' CSS class,
+	*  else 'disabled' CSS class is removed in order to give cards that
+	*  doesn't match back their 'clickability'.
 	*/
 	if (clicked_cards[0].innerHTML == clicked_cards[1].innerHTML) {
 		
-		clicked_cards[0].classList.add("match");
-		clicked_cards[1].classList.add("match");
+		clicked_cards[0].classList.add('match');
+		clicked_cards[1].classList.add('match');
 
 		congratulations();
 		
-		clicked_cards[0].classList.remove("open", "show");
-		clicked_cards[1].classList.remove("open", "show");
+		clicked_cards[0].classList.remove('open', 'show');
+		clicked_cards[1].classList.remove('open', 'show');
 		
 		// I re-initialize my clicked_cards array which contains
 		// cards' icon-classes -- String format.
@@ -102,16 +115,16 @@ function check_suit() {
 	} else {
 		
 		setTimeout(() => {
-			clicked_cards[0].classList.remove("open", "show");
-			clicked_cards[1].classList.remove("open", "show");
+			clicked_cards[0].classList.remove('open', 'show');
+			clicked_cards[1].classList.remove('open', 'show');
 			
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
 		}, 500);
 		
-		clicked_cards[0].classList.remove("disabled");
-		clicked_cards[1].classList.remove("disabled");
+		clicked_cards[0].classList.remove('disabled');
+		clicked_cards[1].classList.remove('disabled');
 		
 	}
 }
@@ -137,28 +150,36 @@ function startTimer() {
 // @description congratulations when all cards match, show modal and moves, time and rating
 function congratulations() {
 
-	if (matchedCards.length == 16) {
+	if (matchedCards.length == 2) {
 
-		let starRating = document.querySelectorAll(".fa-star:not(.hidden_stars)").length;
+		let starRating = document.querySelectorAll('.fa-star:not(.hidden_stars)').length;
 
 		clearInterval(timer);
-		finalTime = minutes.innerHTML + " mins " + seconds.innerHTML + " secs";
+		finalTime = minutes.innerHTML + ' mins ' + seconds.innerHTML + ' secs';
 
-		let span = document.createElement("span");
-		span.innerHTML = "Time to complete: <b>" + finalTime + "</b><br>With <b>" + moves + "</b> moves<br>Rate: <b>" + starRating + "</b> ⭐<br><br>👏👏👏👏👏👏";
+		let span = document.createElement('span');
+		span.innerHTML = 'Time to complete: <b>' + finalTime +
+										 '</b><br>With <b>' + moves + '</b> moves<br>Rate: <b>' +
+										 starRating + '</b> ⭐<br><br>👏👏👏👏👏👏';
 		
 		swal({
+			closeOnClickOutside: false,
+			closeOnEsc: false,
 			title: '🎉🎉 Good job! You WON! 🎉🎉',
-			icon: "success",
+			icon: 'success',
 			content: span,
 			button: 'Replay'
 		}).then(() => {
 			startGame();
+			swal_NewGame();
 		});
 
 	};
 	
 }
+
+
+/* EVENT LISTENERS */
 
 
 /* 
@@ -170,13 +191,21 @@ function congratulations() {
 restart.addEventListener('click', () => {
 
 	// To prevent a missclick we provide an alert. *** Thx to Sweet Alert https://sweetalert.js.org
-	swal("Are you sure you want to start a new game?", {
-		buttons: ["Oh noooo!", "Yes :("],
+	swal({
+		// closeOnClickOutside: false,
+		title: 'Are you sure?',
+		text: "Your progress will be Lost!",
+		icon: 'warning',
+		buttons: ['Oh noooo! 😱', 'Yes 😞']
 	}).then((willDelete) => {
 		if (willDelete) {
 			startGame();
+			swal_NewGame();
 		} else {
-			swal("Keep going!");
+			// swal({
+			// 	title: 'Keep going! 💪',
+			// 	button: false
+			// });
 		}
 	});
 
@@ -187,11 +216,11 @@ deck.addEventListener('click', el => {
 	
 	// Check if the click has been made on a card and then stores it into
 	// a variable which is going to be pushed later in order to be checked
-	if (el.target.classList == "card" || el.target.parentNode.classList == "card") {
+	if (el.target.classList == 'card' || el.target.parentNode.classList == 'card') {
 
 		let card;
 		
-		if (el.target.classList == "card") {
+		if (el.target.classList == 'card') {
 			card = el.target;
 		} else {
 			card = el.target.parentNode;
@@ -199,7 +228,7 @@ deck.addEventListener('click', el => {
 
 		// Now I add this CSS class in order to not having the
 		// 2nd-click-on-the-same-card bug
-		card.classList.add("disabled", "open", "show");
+		card.classList.add('disabled', 'open', 'show');
 
 		clicked_cards.push(card);
 
@@ -210,18 +239,18 @@ deck.addEventListener('click', el => {
 		 */
 		if (clicked_cards.length == 2) {
 
-			document.querySelector(".moves").innerHTML = moves += 1;
+			document.querySelector('.moves').innerHTML = moves += 1;
 		
 			// if statement on moves to control the start of the timer
 			// and the decrement of the stars
 			if (moves == 1) {
 				startTimer();
 			} else if (moves == 11) {
-				stars[2].classList.add("hidden_stars");
+				stars[2].classList.add('hidden_stars');
 			} else if (moves == 16) {
-				stars[1].classList.add("hidden_stars");
+				stars[1].classList.add('hidden_stars');
 			} else if (moves == 22) {
-				stars[0].classList.add("hidden_stars");
+				stars[0].classList.add('hidden_stars');
 			}
 			
 			check_suit();
@@ -233,17 +262,9 @@ deck.addEventListener('click', el => {
 });
 
 
+/* STARTING FUNCTION */
+
+
 // IT'S TIME TO PLAY THE GAME (cit.)
 // @description shuffles cards when page is refreshed / loads
 window.onload = startGame();
-
-
-//  // Programmatic version
-// @description change tab icon at page-load
-// (function () {
-// 	var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-// 	link.type = 'image/x-icon';
-// 	link.rel = 'shortcut icon';
-// 	link.href = '../img/favicon.ico';
-// 	document.getElementsByTagName('head')[0].appendChild(link);
-// })();
