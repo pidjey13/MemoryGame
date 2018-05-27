@@ -294,8 +294,6 @@ deck.addEventListener('click', el => {
 				stars[2].classList.add('hidden_stars');
 			} else if (moves == 16) {
 				stars[1].classList.add('hidden_stars');
-			} else if (moves == 22) {
-				stars[0].classList.add('hidden_stars');
 			}
 			
 			check_suit();
