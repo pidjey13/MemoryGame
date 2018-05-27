@@ -113,15 +113,21 @@ function check_suit() {
 		clicked_cards = [];
 		
 	} else {
+			clicked_cards[0].classList.add('wrong');
+			clicked_cards[1].classList.add('wrong');
 		
 		setTimeout(() => {
 			clicked_cards[0].classList.remove('open', 'show');
 			clicked_cards[1].classList.remove('open', 'show');
-			
+			clicked_cards[0].classList.remove('wrong');
+			clicked_cards[1].classList.remove('wrong');
+
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
 		}, 500);
+
+
 		
 		clicked_cards[0].classList.remove('disabled');
 		clicked_cards[1].classList.remove('disabled');
@@ -150,7 +156,7 @@ function startTimer() {
 // @description congratulations when all cards match, show modal and moves, time and rating
 function congratulations() {
 
-	if (matchedCards.length == 2) {
+	if (matchedCards.length == 16) {
 
 		let starRating = document.querySelectorAll('.fa-star:not(.hidden_stars)').length;
 
