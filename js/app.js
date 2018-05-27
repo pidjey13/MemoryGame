@@ -12,17 +12,24 @@ let cardsArray = Array.from(cards);
 // array of cards clicked used to check for a match
 let clicked_cards = [];
 
-// moves counter incremented after the 2nd click
-let moves = 0;
+// declaring variable of matchedCards
+let matchedCards = document.getElementsByClassName("match");
 
 // array-list that holds all of the stars
 const stars = document.querySelectorAll(".stars .fa-star");
 
+// moves counter incremented after the 2nd click
+let moves = 0;
+
 // game timer
 let timer;
+let minutes = document.querySelector("#minutes");
+let seconds = document.querySelector("#seconds");
 
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+// @description Shuffle function from http://stackoverflow.com/a/2450976
+// @param {array}
+// @returns shuffledarray
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	
@@ -39,8 +46,23 @@ function shuffle(array) {
 
 // function that will shuffle the deck of cards
 // by shuffling cards' suits
+// @description function to start a new play by shuffling cards' suits
 function startGame() {
-	var shuffledDeck = shuffle(cardsArray);
+
+	for (var i = 0; i < stars.length; i++) {
+		stars[i].classList.remove("hidden_stars");
+	}
+
+	moves = 0;
+	document.querySelector(".moves").innerHTML = moves;
+
+	clicked_cards = [];
+
+	clearInterval(timer);
+	minutes.innerHTML = 0;
+	seconds.innerHTML = 0;
+
+	let shuffledDeck = shuffle(cardsArray);
 	let outer = "";
 
 	var reconstructHTML = () => {
@@ -67,6 +89,8 @@ function check_suit() {
 		
 		clicked_cards[0].classList.add("match");
 		clicked_cards[1].classList.add("match");
+
+		congratulations();
 		
 		clicked_cards[0].classList.remove("open", "show");
 		clicked_cards[1].classList.remove("open", "show");
@@ -97,15 +121,43 @@ function startTimer() {
 	let sec = 0;
 	let min = 0;
 
+	// I set the interval and I check if I have to increase
+	// minutes and then I display the result on the DOM
 	timer = setInterval(() => {
 		if (sec == 59) {
 			min += 1;
 			sec = -1;
 		}
 
-		document.querySelector("#minutes").innerHTML = min;
-		document.querySelector("#seconds").innerHTML = ++sec;
+		minutes.innerHTML = min;
+		seconds.innerHTML = ++sec;
 	}, 1000);
+}
+
+// @description congratulations when all cards match, show modal and moves, time and rating
+function congratulations() {
+
+	if (matchedCards.length == 16) {
+
+		let starRating = document.querySelectorAll(".fa-star:not(.hidden_stars)").length;
+
+		clearInterval(timer);
+		finalTime = minutes.innerHTML + " mins " + seconds.innerHTML + " secs";
+
+		let span = document.createElement("span");
+		span.innerHTML = "Time to complete: <b>" + finalTime + "</b><br>With <b>" + moves + "</b> moves<br>Rate: <b>" + starRating + "</b> ⭐<br><br>👏👏👏👏👏👏";
+		
+		swal({
+			title: '🎉🎉 Good job! You WON! 🎉🎉',
+			icon: "success",
+			content: span,
+			button: 'Replay'
+		}).then(() => {
+			startGame();
+		});
+
+	};
+	
 }
 
 
@@ -116,21 +168,17 @@ function startTimer() {
 *  moves counter back to 0 and uploaded the DOM.
 */
 restart.addEventListener('click', () => {
-	
-	stars[0].classList.remove("hidden_stars");
-	stars[1].classList.remove("hidden_stars");
-	stars[2].classList.remove("hidden_stars");
 
-	moves = 0;
-	document.querySelector(".moves").innerHTML = moves;
-
-	clicked_cards = [];
-
-	clearInterval(timer);
-	document.getElementById("minutes").innerHTML = 0;
-	document.getElementById("seconds").innerHTML = 0;
-
-	startGame();
+	// To prevent a missclick we provide an alert. *** Thx to Sweet Alert https://sweetalert.js.org
+	swal("Are you sure you want to start a new game?", {
+		buttons: ["Oh noooo!", "Yes :("],
+	}).then((willDelete) => {
+		if (willDelete) {
+			startGame();
+		} else {
+			swal("Keep going!");
+		}
+	});
 
 });
 
@@ -186,4 +234,5 @@ deck.addEventListener('click', el => {
 
 
 // IT'S TIME TO PLAY THE GAME (cit.)
+// @description shuffles cards when page is refreshed / loads
 window.onload = startGame();
