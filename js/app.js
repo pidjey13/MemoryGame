@@ -1,3 +1,6 @@
+/* VARIABLES */
+
+
 // deck of all cards in game
 // ==> used for a single evt listener
 const deck = document.querySelector('.deck');
@@ -9,10 +12,11 @@ const restart = document.querySelector('.restart');
 const cards = document.querySelectorAll('.deck .card');
 let cardsArray = Array.from(cards);
 
-// array of cards clicked used to check for a match
+// array of clicked cards
+// ==> used to check for a match
 let clicked_cards = [];
 
-// declaring variable of matchedCards
+// list of all cards that have 'match' class
 let matchedCards = document.getElementsByClassName('match');
 
 // array-list that holds all of the stars
@@ -56,23 +60,9 @@ function shuffle(array) {
 	return array;
 }
 
-// function that will shuffle the deck of cards
+// Function that starts a new game will shuffle the deck of cards
 // by shuffling cards' suits
-// function to start a new play by shuffling cards' suits
 function startGame() {
-
-	for (var i = 0; i < stars.length; i++) {
-		stars[i].classList.remove('hidden_stars');
-	}
-
-	moves = 0;
-	document.querySelector('.moves').innerHTML = moves;
-
-	clicked_cards = [];
-
-	clearInterval(timer);
-	minutes.innerHTML = 0;
-	seconds.innerHTML = 0;
 
 	let shuffledDeck = shuffle(cardsArray);
 	let outer = '';
@@ -86,16 +76,41 @@ function startGame() {
 	};
 	
 	reconstructHTML(shuffledDeck);
+
+	// Reset my stars rating
+	for (var i = 0; i < stars.length; i++) {
+		stars[i].classList.remove('hidden_stars');
+	}
+
+	// Reset my moves counter
+	moves = 0;
+	document.querySelector('.moves').innerHTML = moves;
+
+	// Reset my array of clicked cards
+	clicked_cards = [];
+
+	// Reset my timer
+	clearInterval(timer);
+	minutes.innerHTML = 0;
+	seconds.innerHTML = 0;
+
 }
 
 // Function that checks if icon-classes have a match.
 // It will be called only after a 2nd click.
 function check_suit() {
 	/* 
-	*  Statement that checks if there is a match on the cards' suit,
-	*  and if it's the case, adds 'match' CSS class,
-	*  else 'disabled' CSS class is removed in order to give cards that
-	*  doesn't match back their 'clickability'.
+	*  Statement that checks:
+	*  - if there is a match on the cards' suit,
+	*  	 and if it's the case:
+	*		 - adds 'match' CSS class to both cards clicked;
+	*		 - checks with congratulations() if the game is finished;
+	*		 - removes 'open' & 'show' CSS classes;
+	*		 - resets the array of clicked cards;
+	*
+	*  - else, it:
+	*    - adds 'wrong' CSS class to both cards clicked;
+	*		 - removes 'open', 'show', 'wrong', 'disabled' CSS classes;
 	*/
 	if (clicked_cards[0].innerHTML == clicked_cards[1].innerHTML) {
 		
@@ -112,25 +127,19 @@ function check_suit() {
 		clicked_cards = [];
 		
 	} else {
-			clicked_cards[0].classList.add('wrong');
-			clicked_cards[1].classList.add('wrong');
+		clicked_cards[0].classList.add('wrong');
+		clicked_cards[1].classList.add('wrong');
 		
+		// I set a timeout in order to show CSS classes animations
 		setTimeout(() => {
-			clicked_cards[0].classList.remove('open', 'show');
-			clicked_cards[1].classList.remove('open', 'show');
-			clicked_cards[0].classList.remove('wrong');
-			clicked_cards[1].classList.remove('wrong');
+			clicked_cards[0].classList.remove('open', 'show', 'wrong', 'disabled');
+			clicked_cards[1].classList.remove('open', 'show', 'wrong', 'disabled');
 
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
 		}, 500);
 
-
-		
-		clicked_cards[0].classList.remove('disabled');
-		clicked_cards[1].classList.remove('disabled');
-		
 	}
 }
 
@@ -157,16 +166,22 @@ function congratulations() {
 
 	if (matchedCards.length == 16) {
 
+		// I select from the DOM the number of stars visibile when game is won
 		let starRating = document.querySelectorAll('.fa-star:not(.hidden_stars)').length;
 
+		// I stop the timer and I make a String out of the time displayed on the DOM
 		clearInterval(timer);
 		finalTime = minutes.innerHTML + ' mins ' + seconds.innerHTML + ' secs';
 
+		// I create a span element that will be populated with all game data,
+		// plus fancy stuff
 		let span = document.createElement('span');
 		span.innerHTML = 'Time to complete: <b>' + finalTime +
 										 '</b><br>With <b>' + moves + '</b> moves<br>Rate: <b>' +
 										 starRating + '</b> ⭐<br><br>👏👏👏👏👏👏';
 		
+		// That is Sweet Alert modal overlay *** Thx to Sweet Alert https://sweetalert.js.org
+		// It then throws startGame() function to start a new game
 		swal({
 			closeOnClickOutside: false,
 			closeOnEsc: false,
@@ -188,14 +203,13 @@ function congratulations() {
 
 
 /* 
-*  Restart button CLICK LISTENER
-*  After the user click on the restart btn, startGame will be fired.
-*  startGame() will shuffle the cards.
-*  moves counter back to 0 and uploaded the DOM.
+*  Restart button click listener.
+*  After the user clicks on the restart btn, startGame() will be fired.
 */
 restart.addEventListener('click', () => {
 
-	// To prevent a missclick we provide an alert. *** Thx to Sweet Alert https://sweetalert.js.org
+	// To prevent a missclick we provide an alert.
+	// *** Thx to Sweet Alert https://sweetalert.js.org ***
 	swal({
 		// closeOnClickOutside: false,
 		title: 'Are you sure?',
@@ -216,11 +230,18 @@ restart.addEventListener('click', () => {
 
 });
 
-// Add an evt listener on the deck --- THANKS TO MIKE WALES FOR THE TIP
+/*
+*  Deck click listener.
+*  Add an evt listener on the deck - *** THANKS TO MIKE WALES FOR THE TIP ***
+*/
 deck.addEventListener('click', el => {
 	
-	// Check if the click has been made on a card and then stores it into
-	// a variable which is going to be pushed later in order to be checked
+	/* 
+	*  Check if the click has been made on a card or on cards' suit
+	*  and then stores it into a variable which is going to be pushed
+	*  later in order to be checked.
+	*  'disabled', 'open' & 'show' CSS classes are added to the card.
+	*/
 	if (el.target.classList == 'card' || el.target.parentNode.classList == 'card') {
 
 		let card;
@@ -238,16 +259,19 @@ deck.addEventListener('click', el => {
 		clicked_cards.push(card);
 
 		/* 
-		 *  Check if 2nd click has been made. Then I call the
-		 *  check_suit function that will start here cause of the 2nd click.
-		 *  That function will check if icon-classes have a match.
+		 *  I check if 2nd click has been made.
+		 *  Then with af if statement I start the timer (otherwise it
+		 *  will be fired every 2 clicks) and I call check_suit function,
+		 *  that will start here cause of the 2nd click.
+		 *  That function will checks if icon-classes have a match.
 		 */
 		if (clicked_cards.length == 2) {
 
+			// I increment moves on the DOM
 			document.querySelector('.moves').innerHTML = moves += 1;
 		
-			// if statement on moves to control the start of the timer
-			// and the decrement of the stars
+			// If statement on moves to control the start of the timer
+			// and the decrementation of the stars
 			if (moves == 1) {
 				startTimer();
 			} else if (moves == 11) {
@@ -270,6 +294,9 @@ deck.addEventListener('click', el => {
 /* STARTING FUNCTION */
 
 
-// IT'S TIME TO PLAY THE GAME (cit.)
-// shuffles cards when page is refreshed / loads
+/*
+*  IT'S TIME TO PLAY THE GAME (cit.) 😀
+*
+*  It shuffles cards when page is refreshed / loads
+*/
 window.onload = startGame();
