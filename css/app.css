@@ -374,3 +374,34 @@ h1 {
 .deck .card.disabled {
 	pointer-events: none;
 }
+
+
+/* Media queries */
+
+@media only screen and (max-width: 780px) {
+	.deck {
+		max-width: 300px;
+		min-height: auto;
+		padding-bottom: 17px;
+	}
+	
+	.deck .card {
+		height: 50px;
+		width: 50px;
+		margin-bottom: 17px;
+	}
+	
+	.score-panel {
+		max-width: 45%;
+	}
+
+	.timer {
+		display: inline-block;
+		margin-left: 2%;
+	}
+
+	h1 {
+		margin: 0;
+		padding: 10px 0;
+	}
+}
