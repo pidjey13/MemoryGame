@@ -40,9 +40,8 @@ let swal_NewGame = () => {
 /* FUNCTIONS */
 
 
-// @description Shuffle function from http://stackoverflow.com/a/2450976
-// @param {array}
-// @returns shuffledarray
+// Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	
@@ -59,7 +58,7 @@ function shuffle(array) {
 
 // function that will shuffle the deck of cards
 // by shuffling cards' suits
-// @description function to start a new play by shuffling cards' suits
+// function to start a new play by shuffling cards' suits
 function startGame() {
 
 	for (var i = 0; i < stars.length; i++) {
@@ -153,7 +152,7 @@ function startTimer() {
 	}, 1000);
 }
 
-// @description congratulations when all cards match, show modal and moves, time and rating
+// congratulations modal when all cards match, show modal and moves, time and rating
 function congratulations() {
 
 	if (matchedCards.length == 16) {
@@ -272,5 +271,5 @@ deck.addEventListener('click', el => {
 
 
 // IT'S TIME TO PLAY THE GAME (cit.)
-// @description shuffles cards when page is refreshed / loads
+// shuffles cards when page is refreshed / loads
 window.onload = startGame();
