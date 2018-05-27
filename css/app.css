@@ -376,6 +376,16 @@ h1 {
 }
 
 
+/* Swal Modal */
+.newGameOverlay {
+	background-color: rgba(12, 151, 66, 0.45);
+}
+
+.restartOverlay {
+	background-color: rgba(248, 144, 144, 0.45);
+}
+
+
 /* Media queries */
 
 @media only screen and (max-width: 780px) {
