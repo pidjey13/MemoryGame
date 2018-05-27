@@ -238,6 +238,7 @@ deck.addEventListener('click', el => {
 window.onload = startGame();
 
 
+//  // Programmatic version
 // @description change tab icon at page-load
 // (function () {
 // 	var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
