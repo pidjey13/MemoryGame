@@ -236,3 +236,13 @@ deck.addEventListener('click', el => {
 // IT'S TIME TO PLAY THE GAME (cit.)
 // @description shuffles cards when page is refreshed / loads
 window.onload = startGame();
+
+
+// @description change tab icon at page-load
+(function () {
+	var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+	link.type = 'image/x-icon';
+	link.rel = 'shortcut icon';
+	link.href = '../img/favicon.ico';
+	document.getElementsByTagName('head')[0].appendChild(link);
+})();
