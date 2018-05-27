@@ -37,7 +37,7 @@ let swal_NewGame = () => {
 		icon: 'success',
 		button: false,
 		text: 'Good Luck 🍀'
-	})
+	});
 };
 
 
@@ -202,7 +202,7 @@ function congratulations() {
 			swalModal.classList.add("newGameOverlay");
 		})();
 
-	};
+	}
 	
 }
 
