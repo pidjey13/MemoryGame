@@ -1,4 +1,5 @@
-# Memory Game - Udacity Nanodegree Project (Google Scholarship)
+# Memory Game
+Udacity Nanodegree Project (Google Scholarship)
 
 ## Dependecies
 * Font-Awsome (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
