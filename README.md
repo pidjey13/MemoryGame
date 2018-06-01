@@ -2,7 +2,7 @@
 Udacity Nanodegree Project (Google Scholarship)
 
 ## Dependecies
-* Font-Awsome (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
+* Font-Awesome (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css);
 
 * Google Fonts (https://fonts.googleapis.com/css?family=Coda);
 
