@@ -10,11 +10,12 @@ Udacity Nanodegree Project (Google Scholarship)
 
 ## What is this project about
 This is a simple game built in Vanilla JS as part
-of Udacity Nanodegree Program. 
+of Udacity Nanodegree Program.
+
 ![snippet](img/preview.png)
 
 ## Challenge
-Match all 16 cards in less time with less moves evry game.
+Match all 16 cards in less time with less moves every game.
 
 ## How to Play
 Load this link in your browser https://pidjey13.github.io/MemoryGame/
