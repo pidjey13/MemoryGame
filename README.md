@@ -18,7 +18,7 @@ of Udacity Nanodegree Program.
 Match all 16 cards in less time with less moves every game.
 
 ## How to Play
-Load this link in your browser https://pidjey13.github.io/MemoryGame/
+Load this link in your browser https://pidjey13.github.io/Memory_Game/
 
 ## Instructions
 * Click on a card
