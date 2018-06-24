@@ -138,7 +138,7 @@ function check_suit() {
 			// I re-initialize my clicked_cards array which contains
 			// cards' icon-classes -- String format.
 			clicked_cards = [];
-		}, 500);
+		}, 850);
 
 	}
 }
